@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 import seaborn as sns
 import math
+from sklearn.datasets import load_wine
+
 
 def get_countplot(df, col_name):
     sns.countplot(x=col_name, data=df)
@@ -98,3 +100,44 @@ def set_plots_tickers():
     plt.show()
 
 set_plots_tickers()
+
+
+data = load_wine()
+x = data.data
+
+def get_hist_plots():
+  length = len(x[0])
+  fig, ax = plt.subplots(3, 5)
+  fig.set_size_inches((20, 12))
+  fig.suptitle("Features of wine")
+
+  for n in range(length):
+      feature_name = data.feature_names[n]
+      ax_position = ax[n // 5, n % 5]
+      ax_position.hist(
+          x[:, n], bins=20, linewidth=0.5, edgecolor="black", label=feature_name
+      )
+      ax_position.legend()
+      ax_position.grid()
+
+  plt.show()
+
+def get_violinplot_plots():
+    length = len(x[0])
+    fig, ax = plt.subplots(3, 5)
+    fig.set_size_inches((20, 12))
+    fig.suptitle("Features of wine")
+
+    for n in range(length):
+        ax_position = ax[n // 5, n % 5]
+        feature_name = data.feature_names[n]
+        ax_position.set_title(feature_name)
+        ax_position.violinplot(
+            x[:, n],
+            positions=[0],
+            showmedians=True
+            )
+        ax_position.grid()
+    plt.show()
+
+get_hist_plots()
