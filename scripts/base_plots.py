@@ -3,6 +3,8 @@ from matplotlib.ticker import MultipleLocator
 import seaborn as sns
 import math
 from sklearn.datasets import load_wine
+import pandas as pd
+
 
 
 def get_countplot(df, col_name):
@@ -141,3 +143,36 @@ def get_violinplot_plots():
     plt.show()
 
 get_hist_plots()
+
+df = pd.read_csv('./datas/taxi.csv')
+df['datetime'] = pd.to_datetime(df['datetime'])
+df['hour'] = df['datetime'].dt.hour
+
+# print(df.head())
+
+def get_orders():
+  color = sns.color_palette("hls", 24)
+  ax = sns.barplot(x="hour", y="num_orders", data=df, palette=color)
+  for patch in ax.patches:
+    patch.set_edgecolor('black') 
+    patch.set_linewidth(1) 
+  ax.set_title("Количесво заказов такси по часам")
+  ax.set_xlabel("Часы")
+  ax.set_ylabel("Количество заказов")
+  plt.grid(linestyle='dotted')
+  plt.show()
+
+# def get_orders():
+#     sns.barplot(
+#         x='hour',
+#         y='num_orders',
+#         palette='hls',
+#         data=df)
+#     plt.title('Количество заказов такси по часам')
+#     plt.grid()
+#     plt.xlabel('Часы')
+#     plt.ylabel('Количество заказов')
+#     plt.show()
+
+
+get_orders()
